@@ -824,6 +824,195 @@ function buildBG(li, S, dpr) {
     }
   }
 
+
+  // Overgrown copper-garden pass: timber beds, mixed vegetables and rainwater.
+  if (li === 0) {
+    const gr = mulberry32(90421);
+    const wood = "#62442d";
+    const woodLight = "#99704a";
+    const soil = "#39291e";
+
+    for (let row = 1; row < ROWS - 1; row++) {
+      const type = ROWTYPE[row];
+      const y = row * S;
+
+      if (type === "safe") {
+        const inset = S * (0.12 + gr() * 0.08);
+        const bedY = y + S * 0.14;
+        const bedH = S * 0.68;
+
+        c.fillStyle = "rgba(8,7,5,.32)";
+        c.fillRect(inset + 2, bedY + 4, W - inset * 2, bedH);
+
+        c.fillStyle = wood;
+        c.fillRect(inset, bedY, W - inset * 2, bedH);
+        c.fillStyle = woodLight;
+        c.fillRect(inset, bedY, W - inset * 2, Math.max(2, S * .055));
+        c.fillStyle = "#302219";
+        c.fillRect(inset, bedY + bedH - S * .09, W - inset * 2, S * .09);
+
+        c.fillStyle = soil;
+        c.fillRect(inset + S * .10, bedY + S * .10,
+          W - inset * 2 - S * .20, bedH - S * .20);
+
+        c.strokeStyle = "rgba(147,105,65,.48)";
+        c.lineWidth = Math.max(1, S * .018);
+        for (let f = 0; f < 5; f++) {
+          const fx = inset + S * (.35 + f * .88);
+          c.beginPath();
+          c.moveTo(fx, bedY + S * .16);
+          c.quadraticCurveTo(fx + (gr() - .5) * S * .16,
+            bedY + bedH * .5, fx + (gr() - .5) * S * .12,
+            bedY + bedH - S * .15);
+          c.stroke();
+        }
+
+        const count = 7 + Math.floor(gr() * 5);
+        for (let i = 0; i < count; i++) {
+          const px = inset + S * (.28 + gr() * (COLS - .56));
+          const py = bedY + S * (.20 + gr() * .48);
+          const kind = i % 4;
+
+          if (kind === 0) {
+            for (let k = 0; k < 7; k++) {
+              const a = k * Math.PI * 2 / 7;
+              c.fillStyle = k % 2 ? "#64834a" : "#91a96a";
+              ell(c, px + Math.cos(a) * S * .075,
+                py + Math.sin(a) * S * .055,
+                S * .095, S * .072, a);
+            }
+            c.fillStyle = "#b4c28a";
+            ell(c, px, py, S * .065, S * .05);
+          } else if (kind === 1) {
+            c.strokeStyle = "#4e7040";
+            c.lineWidth = Math.max(1, S * .025);
+            c.beginPath();
+            c.moveTo(px - S * .12, py + S * .07);
+            c.quadraticCurveTo(px, py - S * .16, px + S * .12, py + S * .06);
+            c.stroke();
+            for (let k = 0; k < 4; k++) {
+              const lx = px + (gr() - .5) * S * .24;
+              const ly = py + (gr() - .5) * S * .16;
+              c.fillStyle = k % 2 ? "#567742" : "#789552";
+              ell(c, lx, ly, S * .075, S * .04, gr() * 2);
+            }
+            c.fillStyle = "#a84332";
+            ell(c, px - S * .055, py + S * .07, S * .045, S * .045);
+            c.fillStyle = "#c65d3d";
+            ell(c, px + S * .055, py + S * .04, S * .043, S * .043);
+          } else if (kind === 2) {
+            c.fillStyle = "#cf8746";
+            c.beginPath();
+            c.moveTo(px - S * .045, py - S * .015);
+            c.lineTo(px + S * .045, py - S * .015);
+            c.lineTo(px + S * .01, py + S * .15);
+            c.lineTo(px - S * .018, py + S * .15);
+            c.closePath();
+            c.fill();
+            c.strokeStyle = "#78945a";
+            c.lineWidth = Math.max(1, S * .018);
+            for (let k = 0; k < 3; k++) {
+              c.beginPath();
+              c.moveTo(px, py);
+              c.lineTo(px + (k - 1) * S * .07, py - S * (.10 + gr() * .06));
+              c.stroke();
+            }
+          } else {
+            c.strokeStyle = "#526e3b";
+            c.lineWidth = Math.max(1, S * .025);
+            c.beginPath();
+            c.moveTo(px - S * .12, py + S * .05);
+            c.quadraticCurveTo(px, py - S * .04, px + S * .13, py + S * .07);
+            c.stroke();
+            c.fillStyle = "#6f8849";
+            ell(c, px - S * .06, py - S * .025, S * .09, S * .055, -.4);
+            ell(c, px + S * .07, py + S * .025, S * .09, S * .05, .5);
+            c.fillStyle = "#a7a15d";
+            ell(c, px + S * .015, py + S * .085, S * .065, S * .045, -.2);
+          }
+        }
+
+        for (let i = 0; i < 24; i++) {
+          const wx = gr() * W;
+          const wy = y + S * (.08 + gr() * .84);
+          const lean = (gr() - .5) * S * .18;
+          c.strokeStyle = i % 3 ? "#526b3c" : "#7d8a4c";
+          c.lineWidth = Math.max(1, S * .018);
+          c.beginPath();
+          c.moveTo(wx, wy + S * .07);
+          c.quadraticCurveTo(wx + lean, wy,
+            wx + lean * 1.4, wy - S * (.08 + gr() * .06));
+          c.stroke();
+          c.fillStyle = i % 2 ? "#617d45" : "#85945a";
+          ell(c, wx + lean, wy - S * .055, S * .045, S * .023, lean);
+        }
+      }
+
+      if (type === "lane") {
+        c.strokeStyle = "rgba(14,11,8,.62)";
+        c.lineWidth = S * .10;
+        for (let track = 0; track < 2; track++) {
+          const tx = W * (.28 + track * .43);
+          c.beginPath();
+          c.moveTo(tx, y + S * .05);
+          c.quadraticCurveTo(tx + S * .13, y + S * .48,
+            tx - S * .04, y + S * .96);
+          c.stroke();
+        }
+
+        for (let p = 0; p < 3; p++) {
+          const px = S * (.65 + gr() * (COLS - 1.3));
+          const py = y + S * (.25 + gr() * .5);
+          const rx = S * (.22 + gr() * .28);
+          const ry = S * (.07 + gr() * .045);
+
+          c.fillStyle = "rgba(12,10,8,.68)";
+          ell(c, px, py + S * .025, rx * 1.12, ry * 1.28, (gr() - .5) * .2);
+          c.fillStyle = "#263a3b";
+          ell(c, px, py, rx, ry, (gr() - .5) * .2);
+          c.fillStyle = "#3e6260";
+          ell(c, px - rx * .12, py - ry * .12, rx * .72, ry * .48);
+          c.strokeStyle = "rgba(210,204,174,.52)";
+          c.lineWidth = Math.max(1, S * .018);
+          c.beginPath();
+          c.moveTo(px - rx * .45, py - ry * .22);
+          c.quadraticCurveTo(px - rx * .12, py - ry * .62,
+            px + rx * .30, py - ry * .28);
+          c.stroke();
+          c.strokeStyle = "rgba(189,123,69,.62)";
+          c.beginPath();
+          c.moveTo(px + rx * .08, py + ry * .24);
+          c.lineTo(px + rx * .34, py + ry * .12);
+          c.stroke();
+        }
+
+        for (let i = 0; i < 18; i++) {
+          const edge = gr() < .5 ? S * .12 : W - S * .12;
+          const wx = edge + (gr() - .5) * S * .28;
+          const wy = y + gr() * S;
+          c.strokeStyle = "#667d45";
+          c.lineWidth = Math.max(1, S * .02);
+          c.beginPath();
+          c.moveTo(wx, wy);
+          c.lineTo(wx + (gr() - .5) * S * .12,
+            wy - S * (.07 + gr() * .07));
+          c.stroke();
+        }
+      }
+    }
+
+    c.strokeStyle = "rgba(189,123,69,.38)";
+    c.lineWidth = Math.max(1, S * .012);
+    for (let row = 0; row < ROWS; row++) {
+      if (ROWTYPE[row] !== "safe") continue;
+      const yy = row * S + S * .14;
+      c.beginPath();
+      c.moveTo(S * .16, yy);
+      c.lineTo(W - S * .16, yy);
+      c.stroke();
+    }
+  }
+
   // vignette and grime
   const g = c.createRadialGradient(W / 2, (ROWS * S) / 2, S * 2, W / 2, (ROWS * S) / 2, S * 7);
   g.addColorStop(0, "rgba(0,0,0,0)");

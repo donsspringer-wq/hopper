@@ -1,14 +1,14 @@
 :root {
-  --ink: #0e100c;
-  --steel: #171a15;
-  --plate: #232820;
-  --plate-hi: #313828;
-  --line: #3c4433;
-  --bone: #ebe6d3;
-  --dim: #9aa08a;
-  --orange: #ff6a1a;
-  --hazard: #ffc21a;
-  --olive: #8aa23a;
+  --ink: #090a09;
+  --steel: #151412;
+  --plate: #211b17;
+  --plate-hi: #30251d;
+  --line: #5a3a26;
+  --bone: #f1e7d8;
+  --dim: #b29b84;
+  --orange: #bd7b45;
+  --hazard: #e0b27b;
+  --olive: #7d9861;
   --red: #ff3b3b;
   --stencil: "Saira Stencil One", Impact, "Arial Black", sans-serif;
   --ui: "Barlow Condensed", "Arial Narrow", "Roboto Condensed", sans-serif;
@@ -106,7 +106,10 @@ html, body {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #080a07;
+  background:
+    radial-gradient(ellipse at 50% 45%, rgba(34,48,31,.22), transparent 72%),
+    #080a07;
+  box-shadow: inset 0 0 0 1px rgba(189,123,69,.12);
 }
 #cv { display: block; touch-action: none; }
 #banner {
